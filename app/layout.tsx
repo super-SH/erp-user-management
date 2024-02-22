@@ -23,11 +23,11 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <div className='lg:flex h-screen w-full overflow-hidden'>
+        <div className='lg:flex h-screen bg-slate-300 w-full overflow-hidden'>
           <SideNav />
           <div className='flex-1 overflow-y-auto'>
             <TopNav />
-            <main className='mx-auto max-w-7xl px-3 py-6 md:p-12'>
+            <main className='mx-4 md:mx-auto max-w-7xl px-3 py-6 md:p-12'>
               {children}
             </main>
           </div>

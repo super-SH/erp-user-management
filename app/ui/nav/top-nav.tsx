@@ -5,7 +5,7 @@ import { ChevronLeftIcon } from '../icons';
 
 function Topnav() {
   return (
-    <div className='flex h-16 items-center px-4 border-b lg:hidden'>
+    <div className='flex h-16 items-center px-4 border-b lg:hidden bg-slate-50'>
       <Link className='flex mr-auto items-center text-lg font-bold' href='#'>
         Pico SBS
       </Link>
