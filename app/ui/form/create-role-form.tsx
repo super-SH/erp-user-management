@@ -204,7 +204,7 @@ function CreateRoleForm() {
               </FormLabel>
 
               {Object.keys(featureActions).map((feature) => (
-                <>
+                <React.Fragment key={feature}>
                   <div
                     className='grid grid-cols-[144px_1fr] gap-x-2 '
                     key={feature}
@@ -213,8 +213,43 @@ function CreateRoleForm() {
                       {feature}
                     </FormLabel>
 
-                    {/* FIXME: need to fix typescript error */}
                     <div className='flex gap-4 justify-start  items-center'>
+                      <FormField
+                        key={`${feature}_selectAll`}
+                        control={form.control}
+                        name='rolePermissions'
+                        render={({ field }) => (
+                          <FormItem
+                            key={`${feature}-select-all`}
+                            className='flex flex-row items-center space-x-2 space-y-0'
+                          >
+                            <FormControl>
+                              <Checkbox
+                                checked={featureActions[feature].every(
+                                  (permission) =>
+                                    field.value.includes(permission.id)
+                                )}
+                                onCheckedChange={(checked) => {
+                                  const ids = featureActions[feature].map(
+                                    (item) => item.id
+                                  );
+                                  field.onChange(
+                                    checked
+                                      ? [...field.value, ...ids]
+                                      : field.value.filter(
+                                          (id) => !ids.includes(id)
+                                        )
+                                  );
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel className='text-base font-medium'>
+                              Select All
+                            </FormLabel>
+                          </FormItem>
+                        )}
+                      />
+                      {/* FIXME: need to fix typescript error */}
                       {featureActions[feature].map((item) => (
                         <FormField
                           key={item.id}
@@ -253,7 +288,7 @@ function CreateRoleForm() {
                   </div>
 
                   <Separator className='my-4' />
-                </>
+                </React.Fragment>
               ))}
               <div className='h-5'>
                 <FormMessage />
