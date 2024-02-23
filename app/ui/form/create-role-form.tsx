@@ -181,13 +181,9 @@ function CreateRoleForm() {
                 Role name <span className='text-red-500'>&#42;</span>
               </FormLabel>
               <FormControl>
-                <Input
-                  placeholder='Enter a role name'
-                  className='focus:ring-0'
-                  {...field}
-                />
+                <Input placeholder='Enter a role name' {...field} />
               </FormControl>
-              {/* Give the fix height to prevent jumping the layout when the error message is displayed */}
+              {/* Give the fixed height to prevent jumping the layout when the error message is displayed */}
               <div className='h-5'>
                 <FormMessage />
               </div>
@@ -251,7 +247,7 @@ function CreateRoleForm() {
               <Separator className='my-4' />
 
               {/* Loop throught the featureAction ,whcih is fetched. Each Keys is an feature and has the value of array of actions(CRUD, import , print) corresponding to this feature  */}
-              {Object.keys(featureActions).map((feature) => (
+              {Object.entries(featureActions).map(([feature, actionArrays]) => (
                 <React.Fragment key={feature}>
                   <div
                     className='grid grid-cols-1 md:grid-cols-[144px_1fr] gap-x-2 gap-y-2 '
@@ -274,12 +270,11 @@ function CreateRoleForm() {
                           >
                             <FormControl>
                               <Checkbox
-                                checked={featureActions[feature].every(
-                                  (permission) =>
-                                    field.value.includes(permission.id)
+                                checked={actionArrays.every((permission) =>
+                                  field.value.includes(permission.id)
                                 )}
                                 onCheckedChange={(checked) => {
-                                  const ids = featureActions[feature].map(
+                                  const ids = actionArrays.map(
                                     (item) => item.id
                                   );
                                   field.onChange(
@@ -300,8 +295,8 @@ function CreateRoleForm() {
                       />
 
                       {/* Loop through the array of action of each featuer and display checkbox. */}
-                      {/* FIXME: need to fix typescript error */}
-                      {featureActions[feature].map((item) => (
+
+                      {actionArrays.map((item) => (
                         <FormField
                           key={item.id}
                           control={form.control}
