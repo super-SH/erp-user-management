@@ -17,6 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { roleSchema } from '@/lib/validation';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Separator } from '@/components/ui/separator';
 
 // TODO:
 // This will be fetch from the database. This is a dummy placeholder.
@@ -197,47 +198,62 @@ function CreateRoleForm() {
           control={form.control}
           name='rolePermissions'
           render={() => (
-            <FormItem>
-              <FormLabel className='font-semibold'>Role permissions</FormLabel>
-              {Object.keys(featureActions).map((feature) => (
-                <div key={feature} className='mb-4'>
-                  <FormLabel className='text-lg font-semibold'>
-                    {feature}
-                  </FormLabel>
+            <FormItem className='flex flex-col'>
+              <FormLabel className='font-semibold mb-3'>
+                Role permissions
+              </FormLabel>
 
-                  {/* FIXME: need to fix typescript error */}
-                  {featureActions[feature].map((item) => (
-                    <FormField
-                      key={item.id}
-                      control={form.control}
-                      name='rolePermissions'
-                      render={({ field }) => (
-                        <FormItem
+              {Object.keys(featureActions).map((feature) => (
+                <>
+                  <div
+                    className='grid grid-cols-[144px_1fr] gap-x-2 '
+                    key={feature}
+                  >
+                    <FormLabel className='text-lg font-semibold overflow-hidden text-ellipsis'>
+                      {feature}
+                    </FormLabel>
+
+                    {/* FIXME: need to fix typescript error */}
+                    <div className='flex gap-4 justify-start  items-center'>
+                      {featureActions[feature].map((item) => (
+                        <FormField
                           key={item.id}
-                          className='flex flex-row items-center space-x-2 space-y-0'
-                        >
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value?.includes(item.id)}
-                              onCheckedChange={(checked) => {
-                                return checked
-                                  ? field.onChange([...field.value, item.id])
-                                  : field.onChange(
-                                      field.value?.filter(
-                                        (value) => value !== item.id
-                                      )
-                                    );
-                              }}
-                            />
-                          </FormControl>
-                          <FormLabel className='text-base font-medium'>
-                            {item.actionType}
-                          </FormLabel>
-                        </FormItem>
-                      )}
-                    />
-                  ))}
-                </div>
+                          control={form.control}
+                          name='rolePermissions'
+                          render={({ field }) => (
+                            <FormItem
+                              key={item.id}
+                              className='flex flex-row items-center space-x-2 space-y-0'
+                            >
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value?.includes(item.id)}
+                                  onCheckedChange={(checked) => {
+                                    return checked
+                                      ? field.onChange([
+                                          ...field.value,
+                                          item.id,
+                                        ])
+                                      : field.onChange(
+                                          field.value?.filter(
+                                            (value) => value !== item.id
+                                          )
+                                        );
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel className='text-base font-medium'>
+                                {item.actionType}
+                              </FormLabel>
+                            </FormItem>
+                          )}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <Separator className='my-4' />
+                </>
               ))}
               <div className='h-5'>
                 <FormMessage />
