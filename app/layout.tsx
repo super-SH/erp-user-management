@@ -22,12 +22,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
-        <div className='lg:flex h-screen bg-slate-300 w-full overflow-hidden'>
+      <body className={`${inter.className} bg-slate-300`}>
+        <div className='lg:flex h-screen items-start  w-full overflow-hidden'>
           <SideNav />
-          <div className='flex-1 overflow-y-auto'>
+          <div className='flex-1 h-full overflow-y-scroll'>
             <TopNav />
-            <main className='mx-4 md:mx-auto max-w-7xl px-3 py-6 md:p-12'>
+            <main className='relative mx-4 md:mx-auto min-h-full  max-w-7xl overflow-y-auto px-3 py-6 md:p-12'>
               {children}
             </main>
           </div>
