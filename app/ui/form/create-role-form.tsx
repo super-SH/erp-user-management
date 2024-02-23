@@ -229,7 +229,7 @@ function CreateRoleForm() {
                             );
                             field.onChange(
                               checked
-                                ? [...field.value, ...ids]
+                                ? [...ids]
                                 : field.value.filter((id) => !ids.includes(id))
                             );
                           }}
@@ -279,7 +279,12 @@ function CreateRoleForm() {
                                   );
                                   field.onChange(
                                     checked
-                                      ? [...field.value, ...ids]
+                                      ? [
+                                          ...field.value.filter(
+                                            (id) => !ids.includes(id)
+                                          ),
+                                          ...ids,
+                                        ]
                                       : field.value.filter(
                                           (id) => !ids.includes(id)
                                         )
