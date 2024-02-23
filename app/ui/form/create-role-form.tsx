@@ -201,7 +201,7 @@ function CreateRoleForm() {
 
               {/* Administrator Access  */}
               <div
-                className='grid grid-cols-[144px_1fr] gap-x-2 '
+                className='grid grid-cols-1 md:grid-cols-[144px_1fr] gap-x-2 gap-y-2'
                 key={'adminPermission'}
               >
                 <FormLabel className='text-lg font-semibold text-wrap'>
