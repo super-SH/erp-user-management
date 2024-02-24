@@ -127,3 +127,56 @@ export function DeleteIcon(props: any) {
     </svg>
   );
 }
+
+export function LeftArrowIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      viewBox='0 0 24 24'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
+      <g
+        id='SVGRepo_tracerCarrier'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      ></g>
+      <g id='SVGRepo_iconCarrier'>
+        <path
+          d='M15 5L9 12L15 19'
+          stroke='#111'
+          strokeWidth='1.4'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+        ></path>
+      </g>
+    </svg>
+  );
+}
+export function RightArrowIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      viewBox='0 0 24 24'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
+      <g
+        id='SVGRepo_tracerCarrier'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      ></g>
+      <g id='SVGRepo_iconCarrier'>
+        <path
+          d='M9 5L15 12L9 19'
+          stroke='#111'
+          strokeWidth='1.4'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+        ></path>
+      </g>
+    </svg>
+  );
+}

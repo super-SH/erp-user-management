@@ -27,6 +27,7 @@ export default function RootLayout({
           <SideNav />
           <div className='flex-1 h-full overflow-y-auto'>
             <TopNav />
+            {/* TODO: to add custom scrollbar */}
             <main className='relative mx-4 md:mx-auto min-h-full  max-w-7xl overflow-y-auto px-3 py-6 md:p-12'>
               {children}
             </main>
