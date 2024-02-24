@@ -23,8 +23,9 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-import { LeftArrowIcon, RightArrowIcon } from '@/app/ui/icons';
+import { LeftArrowIcon, PlusIcon, RightArrowIcon } from '@/app/ui/icons';
 import { useState } from 'react';
+import Link from 'next/link';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -55,7 +56,8 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className='rounded-md bg-slate-100 dark:bg-slate-800'>
-      <div className='flex items-center py-4'>
+      {/* Operations like filter , create new role */}
+      <div className='flex flex-col md:flex-row justify-between gap-3 md:items-center py-4'>
         <Input
           placeholder='Search Rolename...'
           value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
@@ -64,7 +66,18 @@ export function DataTable<TData, TValue>({
           }
           className='max-w-sm'
         />
+        <Button asChild>
+          <Link
+            href={'/roles/create'}
+            className='flex justify-between items-center gap-2 w-fit'
+          >
+            <PlusIcon className='h-4 w-4 invert' /> Create Role
+          </Link>
+        </Button>
       </div>
+
+      {/* Table , which display data */}
+      {/* TODO: make this table also reusable for user data. */}
       <div>
         <Table>
           <TableHeader>
@@ -115,6 +128,8 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
+
+      {/* Pagination */}
       <div className='flex items-center justify-end space-x-2 py-4'>
         <Button
           variant='outline'
