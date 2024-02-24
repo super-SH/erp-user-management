@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+
 export type Json =
   | string
   | number
@@ -59,22 +60,22 @@ export type Database = {
       };
       role_permissions: {
         Row: {
-          action: number | null;
+          action: number;
           created_at: string;
           id: number;
-          role: number | null;
+          role: number;
         };
         Insert: {
-          action?: number | null;
+          action: number;
           created_at?: string;
           id?: number;
-          role?: number | null;
+          role: number;
         };
         Update: {
-          action?: number | null;
+          action?: number;
           created_at?: string;
           id?: number;
-          role?: number | null;
+          role?: number;
         };
         Relationships: [
           {
@@ -97,17 +98,17 @@ export type Database = {
         Row: {
           created_at: string;
           id: number;
-          name: string | null;
+          name: string;
         };
         Insert: {
           created_at?: string;
           id?: number;
-          name?: string | null;
+          name?: string;
         };
         Update: {
           created_at?: string;
           id?: number;
-          name?: string | null;
+          name?: string;
         };
         Relationships: [];
       };

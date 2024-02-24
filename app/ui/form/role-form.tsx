@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { roleSchema } from '@/lib/validation';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '@/components/ui/separator';
-import { createRole } from '@/lib/actions/role.action';
+import { createRole, updateRole } from '@/lib/actions/role.action';
 
 // TODO:
 // This will be fetch from the database. This is a dummy placeholder.
@@ -154,15 +154,26 @@ const featureActions = {
   ],
 };
 
-function CreateRoleForm() {
+type RoleFormProps =
+  | {
+      isEditingSession: true;
+      roleData: {
+        id: number;
+        name: string;
+        rolePermissions: number[];
+      };
+    }
+  | { roleData?: null; isEditingSession?: false };
+
+function RoleForm({ roleData, isEditingSession = false }: RoleFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof roleSchema>>({
     resolver: zodResolver(roleSchema),
     defaultValues: {
-      name: '',
-      rolePermissions: [],
+      name: roleData ? roleData.name : '',
+      rolePermissions: roleData ? roleData.rolePermissions : [],
     },
   });
 
@@ -170,16 +181,34 @@ function CreateRoleForm() {
   async function onSubmit(values: z.infer<typeof roleSchema>) {
     console.log(values);
 
-    try {
-      setIsSubmitting(true);
-      await createRole({
-        rolename: values.name,
-        rolePremissions: values.rolePermissions,
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsSubmitting(false);
+    if (isEditingSession) {
+      console.log('editing');
+      try {
+        setIsSubmitting(true);
+        // Typescript complain about 'roleData is possibly null, but where are sure it wouldn't be.
+        // Because , the roleData is null only if the isEditingSession is false
+        await updateRole({
+          id: roleData.id,
+          rolename: values.name,
+          rolePremissions: values.rolePermissions,
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsSubmitting(false);
+      }
+    } else {
+      try {
+        setIsSubmitting(true);
+        await createRole({
+          rolename: values.name,
+          rolePremissions: values.rolePermissions,
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   }
 
@@ -363,11 +392,11 @@ function CreateRoleForm() {
           )}
         />
         <Button type='submit' disabled={isSubmitting}>
-          Create Role
+          {isEditingSession ? 'Update' : 'Create'}
         </Button>
       </form>
     </Form>
   );
 }
 
-export default CreateRoleForm;
+export default RoleForm;

@@ -18,6 +18,7 @@ import {
   EditIcon,
   ThreeDotsVertical,
 } from '@/app/ui/icons';
+import Link from 'next/link';
 
 // This type is used to define the shape of our data.
 
@@ -42,9 +43,9 @@ export const columns: ColumnDef<RoleType>[] = [
   },
   {
     id: 'actions',
-
     cell: ({ row }) => {
-      // const role = row.original;
+      const role = row.original;
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -60,10 +61,13 @@ export const columns: ColumnDef<RoleType>[] = [
               <Button
                 variant='ghost'
                 className='w-full cursor-pointer justify-start gap-2 rounded-sm'
+                asChild
               >
-                <span className='sr-only'>Edit Button</span>
-                <EditIcon className='h-4 w-4' />
-                Edit
+                <Link href={`/roles/${role.id}/edit`}>
+                  <span className='sr-only'>Edit Button</span>
+                  <EditIcon className='h-4 w-4' />
+                  Edit
+                </Link>
               </Button>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
