@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { supabase } from '../supabase';
 import { CreateRoleParams } from './shared.types';
+import { RoleType } from '@/types/collection';
 
 export async function createRole({
   rolename,
@@ -42,4 +43,20 @@ export async function createRole({
 
   revalidatePath('/roles');
   redirect('/roles');
+}
+
+export async function getRoles() {
+  const { data: roles, error } = await supabase
+    .from('roles')
+    .select('*')
+    .returns<RoleType[]>();
+
+  if (error) {
+    console.log(error);
+    throw new Error('Error while loading roles');
+  }
+
+  return {
+    data: roles,
+  };
 }
