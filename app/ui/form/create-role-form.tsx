@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,6 +18,7 @@ import { Input } from '@/components/ui/input';
 import { roleSchema } from '@/lib/validation';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '@/components/ui/separator';
+import { createRole } from '@/lib/actions/role.action';
 
 // TODO:
 // This will be fetch from the database. This is a dummy placeholder.
@@ -154,6 +155,8 @@ const featureActions = {
 };
 
 function CreateRoleForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof roleSchema>>({
     resolver: zodResolver(roleSchema),
@@ -164,11 +167,22 @@ function CreateRoleForm() {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof roleSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  async function onSubmit(values: z.infer<typeof roleSchema>) {
     console.log(values);
+
+    try {
+      setIsSubmitting(true);
+      await createRole({
+        rolename: values.name,
+        rolePremissions: values.rolePermissions,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-2'>
@@ -348,7 +362,9 @@ function CreateRoleForm() {
             </FormItem>
           )}
         />
-        <Button type='submit'>Create Role</Button>
+        <Button type='submit' disabled={isSubmitting}>
+          Create Role
+        </Button>
       </form>
     </Form>
   );
