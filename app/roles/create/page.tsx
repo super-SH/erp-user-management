@@ -7,7 +7,7 @@ function Page() {
     <>
       <Heading1 additionalStyles='mb-4'>Create Role</Heading1>
 
-      <div className='px-6 py-3 bg-white rounded-md shadow-md'>
+      <div className='px-6 py-3 bg-slate-100 rounded-md shadow-md'>
         <CreateRoleForm />
       </div>
     </>

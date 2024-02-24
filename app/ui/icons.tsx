@@ -233,3 +233,36 @@ export function DescArrowIcon(props: any) {
     </svg>
   );
 }
+
+export function SearchIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      viewBox='0 0 24 24'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
+      <g
+        id='SVGRepo_tracerCarrier'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      ></g>
+      <g id='SVGRepo_iconCarrier'>
+        <circle
+          cx='11.5'
+          cy='11.5'
+          r='9.5'
+          stroke='#111'
+          strokeWidth='1.4'
+        ></circle>
+        <path
+          d='M18.5 18.5L22 22'
+          stroke='#111'
+          strokeWidth='1.4'
+          strokeLinecap='round'
+        ></path>
+      </g>
+    </svg>
+  );
+}
