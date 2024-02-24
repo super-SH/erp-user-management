@@ -3,16 +3,15 @@
 import { RoleType } from '@/types/collection';
 import { ColumnDef } from '@tanstack/react-table';
 
-// import { MoreHorizontal } from 'lucide-react';
-// import { Button } from '@/components/ui/button';
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuLabel,
-//   DropdownMenuSeparator,
-//   DropdownMenuTrigger,
-// } from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { DeleteIcon, EditIcon, ThreeDotsVertical } from '@/app/ui/icons';
 
 // This type is used to define the shape of our data.
 
@@ -25,32 +24,46 @@ export const columns: ColumnDef<RoleType>[] = [
       </p>
     ),
   },
-  // {
-  //   id: 'actions',
-  //   cell: ({ row }) => {
-  //     const role = row.original;
+  {
+    id: 'actions',
 
-  //     return (
-  //       <DropdownMenu>
-  //         <DropdownMenuTrigger asChild>
-  //           <Button variant='ghost' className='h-8 w-8 p-0'>
-  //             <span className='sr-only'>Open menu</span>
-  //             <MoreHorizontal className='h-4 w-4' />
-  //           </Button>
-  //         </DropdownMenuTrigger>
-  //         <DropdownMenuContent align='end'>
-  //           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-  //           <DropdownMenuItem
-  //             onClick={() => navigator.clipboard.writeText(role.id)}
-  //           >
-  //             Copy payment ID
-  //           </DropdownMenuItem>
-  //           <DropdownMenuSeparator />
-  //           <DropdownMenuItem>View customer</DropdownMenuItem>
-  //           <DropdownMenuItem>View payment details</DropdownMenuItem>
-  //         </DropdownMenuContent>
-  //       </DropdownMenu>
-  //     );
-  //   },
-  // },
+    cell: ({ row }) => {
+      // const role = row.original;
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className='flex-grow-0'>
+              <Button variant='ghost' className='h-8 w-8 p-0 justify-end '>
+                <span className='sr-only'>Open menu</span>
+                <ThreeDotsVertical className='h-6 w-6' />
+              </Button>
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='end' className='py-2'>
+            <DropdownMenuItem asChild>
+              <Button
+                variant='ghost'
+                className='w-full cursor-pointer justify-start gap-2 rounded-sm'
+              >
+                <span className='sr-only'>Edit Button</span>
+                <EditIcon className='h-4 w-4' />
+                Edit
+              </Button>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Button
+                variant='ghost'
+                className='w-full cursor-pointer justify-start gap-2 rounded-sm'
+              >
+                <span className='sr-only'>Delete Button</span>
+                <DeleteIcon className='h-4 w-4' />
+                Delete
+              </Button>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
 ];

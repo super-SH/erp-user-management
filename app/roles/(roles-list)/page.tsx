@@ -7,8 +7,6 @@ import { columns } from './columns';
 async function Page() {
   const { data } = await getRoles();
 
-  console.log(data);
-
   return (
     <>
       <Heading1 additionalStyles='mb-4'>Roles List</Heading1>
