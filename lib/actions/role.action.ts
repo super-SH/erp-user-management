@@ -49,6 +49,7 @@ export async function getRoles() {
   const { data: roles, error } = await supabase
     .from('roles')
     .select('*')
+    .order('name')
     .returns<RoleType[]>();
 
   if (error) {

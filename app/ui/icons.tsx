@@ -180,3 +180,56 @@ export function RightArrowIcon(props: any) {
     </svg>
   );
 }
+
+export function AscArrowIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      viewBox='0 0 24 24'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
+      <g
+        id='SVGRepo_tracerCarrier'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      ></g>
+      <g id='SVGRepo_iconCarrier'>
+        <path
+          d='M12 20L12 4M12 4L18 10M12 4L6 10'
+          stroke='#111'
+          strokeWidth='1.2'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+        ></path>
+      </g>
+    </svg>
+  );
+}
+export function DescArrowIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      viewBox='0 0 24 24'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
+      <g
+        id='SVGRepo_tracerCarrier'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      ></g>
+      <g id='SVGRepo_iconCarrier'>
+        <path
+          d='M12 4L12 20M12 20L18 14M12 20L6 14'
+          stroke='#111'
+          strokeWidth='1.2'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+        ></path>
+      </g>
+    </svg>
+  );
+}

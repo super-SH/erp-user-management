@@ -11,17 +11,33 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { DeleteIcon, EditIcon, ThreeDotsVertical } from '@/app/ui/icons';
+import {
+  AscArrowIcon,
+  DeleteIcon,
+  DescArrowIcon,
+  EditIcon,
+  ThreeDotsVertical,
+} from '@/app/ui/icons';
 
 // This type is used to define the shape of our data.
 
 export const columns: ColumnDef<RoleType>[] = [
   {
     accessorKey: 'name',
-    header: () => (
-      <p className='text-md font-medium text-slate-500  dark:text-slate-400'>
+    header: ({ column }) => (
+      <Button
+        variant='ghost'
+        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        className='text-md p-0 items-center font-medium text-slate-500  dark:text-slate-400'
+      >
         ROLENAME
-      </p>
+        {column.getIsSorted() === 'asc' && (
+          <AscArrowIcon className='ml-2 h-4 w-4' />
+        )}
+        {column.getIsSorted() === 'desc' && (
+          <DescArrowIcon className='ml-2 h-4 w-4' />
+        )}
+      </Button>
     ),
   },
   {
