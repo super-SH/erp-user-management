@@ -1,5 +1,6 @@
 'use client';
-import React from 'react';
+
+import React, { useState } from 'react';
 
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -26,29 +27,41 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { RoleType } from '@/types/collection';
+import { createUser } from '@/lib/actions/user.action';
 
 type UserFormProps = {
   roles: RoleType[];
 };
 
 function UserForm({ roles }: UserFormProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   // 1. Define your form.
   const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema),
     defaultValues: {
-      firstname: '',
-      lastname: '',
+      firstName: '',
+      lastName: '',
       username: '',
       email: '',
       role: '',
+      isActive: false,
     },
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof userSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  async function onSubmit(values: z.infer<typeof userSchema>) {
     console.log(values);
+
+    try {
+      setIsSubmitting(true);
+      await createUser({
+        newUser: { ...values, role: Number(values.role) },
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   }
   return (
     <Form {...form}>
@@ -63,7 +76,7 @@ function UserForm({ roles }: UserFormProps) {
           <div className='flex flex-col md:flex-row md:gap-3 lg:gap-6 w-full justify-between'>
             <FormFieldInput
               form={form}
-              fieldName='firstname'
+              fieldName='firstName'
               label={
                 <>
                   First Name <span className='text-red-500'>&#42;</span>
@@ -73,7 +86,7 @@ function UserForm({ roles }: UserFormProps) {
             />
             <FormFieldInput
               form={form}
-              fieldName='lastname'
+              fieldName='lastName'
               label={'Last Name'}
               inputPlaceholder='Parker'
             />
@@ -170,7 +183,9 @@ function UserForm({ roles }: UserFormProps) {
             )}
           />
         </div>
-        <Button type='submit'>Submit</Button>
+        <Button type='submit' disabled={isSubmitting}>
+          Submit
+        </Button>
       </form>
     </Form>
   );

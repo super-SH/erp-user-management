@@ -10,8 +10,8 @@ export const roleSchema = z.object({
 });
 
 export const userSchema = z.object({
-  firstname: z.string().min(3).max(20),
-  lastname: z
+  firstName: z.string().min(3).max(20),
+  lastName: z
     .union([z.string().length(0), z.string().min(3).max(20)])
     .optional(),
   email: z.string().email(),
