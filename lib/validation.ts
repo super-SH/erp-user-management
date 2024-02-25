@@ -17,5 +17,5 @@ export const userSchema = z.object({
   email: z.string().email(),
   isActive: z.boolean(),
   username: z.string().min(3).max(30),
-  role: z.number(), // Role id
+  role: z.string(), // Role id
 });

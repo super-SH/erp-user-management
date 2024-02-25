@@ -12,13 +12,26 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from '@/components/ui/form';
 import { Paragraph } from '../typography';
 import { userSchema } from '@/lib/validation';
 import { Checkbox } from '@/components/ui/checkbox';
 import FormFieldInput from './form-field-input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { RoleType } from '@/types/collection';
 
-function UserForm() {
+type UserFormProps = {
+  roles: RoleType[];
+};
+
+function UserForm({ roles }: UserFormProps) {
   // 1. Define your form.
   const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema),
@@ -27,6 +40,7 @@ function UserForm() {
       lastname: '',
       username: '',
       email: '',
+      role: '',
     },
   });
 
@@ -116,6 +130,44 @@ function UserForm() {
               </>
             }
             inputPlaceholder='peter_parker1234'
+          />
+
+          <FormField
+            control={form.control}
+            name='role'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='font-semibold'>
+                  Role name <span className='text-red-500'>&#42;</span>
+                </FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder='Select a role' />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {roles.length > 0 ? (
+                      roles.map((role) => (
+                        <SelectItem value={String(role.id)} key={role.id}>
+                          {role.name}
+                        </SelectItem>
+                      ))
+                    ) : (
+                      <div className='relative w-full cursor-not-allowed rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none bg-slate-300 text-slate-800 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:bg-slate-700 dark:text-slate-200'>
+                        There is no role yet. Please create a role first.
+                      </div>
+                    )}
+                  </SelectContent>
+                </Select>
+                <div className='h-5'>
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
           />
         </div>
         <Button type='submit'>Submit</Button>
