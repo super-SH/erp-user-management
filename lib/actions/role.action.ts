@@ -10,6 +10,45 @@ import {
 } from './shared.types';
 import { RoleType } from '@/types/collection';
 
+async function deletePermissionsByRoleId(roleId: number) {
+  await supabase.from('role_permissions').delete().eq('role', roleId);
+}
+
+async function createRolePermission(roleId: number, permissions: number[]) {
+  // 1. create an array of rolePermission obj
+  const rolePermissionsObjs =
+    permissions?.map((permissionId) => ({
+      role: roleId,
+      action: permissionId,
+    })) || [];
+
+  // 2. create in DB
+  const { error: permissionError } = await supabase
+    .from('role_permissions')
+    .insert(rolePermissionsObjs)
+    .select();
+
+  // 3. throw an error
+  if (permissionError) {
+    console.log(permissionError);
+    throw new Error(`Error while creating the role permission.`);
+  }
+}
+
+async function getRolePermissionsByRoleId(roleId: number) {
+  const { data, error: permissionError } = await supabase
+    .from('role_permissions')
+    .select('action')
+    .eq('role', roleId);
+
+  if (permissionError) {
+    console.log(permissionError);
+    throw new Error('Error while getting role permission data');
+  }
+
+  return data.map((permission) => permission.action);
+}
+
 export async function createRole({
   rolename,
   rolePremissions,
@@ -26,24 +65,7 @@ export async function createRole({
   }
 
   // 2. make the role_permissions array with the given array
-  const newRolePermissionsObjs =
-    rolePremissions?.map((permissionId) => ({
-      role: newRole.id,
-      action: permissionId,
-    })) || [];
-
-  // 3. inset the role_permission array into db
-  const { error } = await supabase
-    .from('role_permissions')
-    .insert(newRolePermissionsObjs)
-    .select();
-
-  if (error) {
-    console.log(error);
-    throw new Error(
-      `Error while creating the permission for the ${newRole.name} role.`
-    );
-  }
+  if (rolePremissions) await createRolePermission(newRole.id, rolePremissions);
 
   revalidatePath('/roles');
   redirect('/roles');
@@ -81,22 +103,12 @@ export async function getRoleDataById({ id }: GetRoleDataById) {
   }
 
   // 2. get all the role permission of the id
-
-  const { data: rolePermissions, error: permissionError } = await supabase
-    .from('role_permissions')
-    .select('action')
-    .eq('role', id);
-
-  //  2. b) throw an error for permission
-  if (permissionError) {
-    console.log(permissionError);
-    throw new Error('Error while getting role permission data');
-  }
+  const rolePermissions = await getRolePermissionsByRoleId(role.id);
 
   return {
     data: {
       ...role,
-      rolePermissions: rolePermissions.map((permission) => permission.action),
+      rolePermissions,
     },
   };
 }
@@ -120,27 +132,11 @@ export async function updateRole({
   }
 
   // 2. Delete all the previous role_permissions
-  await supabase.from('role_permissions').delete().eq('role', role.id);
+  await deletePermissionsByRoleId(role.id);
 
   // TODO: DRY this.
   // 3. insert new role_permissions
-  const rolePermissionsObjs =
-    rolePremissions?.map((permissionId) => ({
-      role: role.id,
-      action: permissionId,
-    })) || [];
-
-  const { error: permissionError } = await supabase
-    .from('role_permissions')
-    .insert(rolePermissionsObjs)
-    .select();
-
-  if (permissionError) {
-    console.log(permissionError);
-    throw new Error(
-      `Error while creating the permission for the ${role.name} role.`
-    );
-  }
+  if (rolePremissions) await createRolePermission(role.id, rolePremissions);
 
   // 4. revalidate and ,redirect to roles page
   revalidatePath('/roles', 'layout');
