@@ -28,3 +28,19 @@ export interface CreateUserParams {
     isActive: boolean;
   };
 }
+
+export interface GetUserById {
+  id: number;
+}
+
+export interface UpdateUserParams {
+  id: number;
+  updatedUser: {
+    firstName: string;
+    lastName?: string;
+    username: string;
+    email: string;
+    role: number;
+    isActive: boolean;
+  };
+}

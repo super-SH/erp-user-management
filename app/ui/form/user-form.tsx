@@ -26,41 +26,62 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { RoleType } from '@/types/collection';
-import { createUser } from '@/lib/actions/user.action';
+import { RoleType, UserWithRole } from '@/types/collection';
+import { createUser, updateUser } from '@/lib/actions/user.action';
 
 type UserFormProps = {
   roles: RoleType[];
-};
+} & (
+  | { isEditingSession: true; userData: UserWithRole }
+  | { isEditingSession?: false; userData?: UserWithRole }
+);
 
-function UserForm({ roles }: UserFormProps) {
+function UserForm({
+  roles,
+  isEditingSession = false,
+  userData,
+}: UserFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   // 1. Define your form.
   const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      username: '',
-      email: '',
-      role: '',
-      isActive: false,
+      firstName: userData?.firstName || '',
+      lastName: userData?.lastName || '',
+      username: userData?.username || '',
+      email: userData?.email || '',
+      role: String(userData?.role.id) || '',
+      isActive: userData?.isActive ?? false,
     },
   });
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof userSchema>) {
-    console.log(values);
+    if (isEditingSession) {
+      try {
+        setIsSubmitting(true);
 
-    try {
-      setIsSubmitting(true);
-      await createUser({
-        newUser: { ...values, role: Number(values.role) },
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsSubmitting(false);
+        // This userData also wouldnt be null at this point (the same as role data in role form)
+        await updateUser({
+          id: userData.id,
+          updatedUser: { ...values, role: Number(values.role) },
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsSubmitting(false);
+      }
+    } else {
+      try {
+        setIsSubmitting(true);
+        await createUser({
+          newUser: { ...values, role: Number(values.role) },
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   }
   return (
@@ -184,7 +205,7 @@ function UserForm({ roles }: UserFormProps) {
           />
         </div>
         <Button type='submit' disabled={isSubmitting}>
-          Submit
+          {isEditingSession ? 'Update' : 'Create'}
         </Button>
       </form>
     </Form>

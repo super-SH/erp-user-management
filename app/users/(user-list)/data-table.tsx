@@ -54,8 +54,6 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  console.log(sorting);
-
   return (
     <div className='rounded-md bg-slate-100 dark:bg-slate-800'>
       {/* Operations like filter , create new role */}

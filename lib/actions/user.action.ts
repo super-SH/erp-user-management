@@ -1,8 +1,12 @@
 'use server';
 
-import { UserType, UserWithRole } from '@/types/collection';
+import { UserWithRole } from '@/types/collection';
 import { supabase } from '../supabase';
-import { CreateUserParams } from './shared.types';
+import {
+  CreateUserParams,
+  GetUserById,
+  UpdateUserParams,
+} from './shared.types';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
@@ -37,4 +41,37 @@ export async function getUsers() {
   return {
     data: users,
   };
+}
+
+export async function getUserById({ id }: GetUserById) {
+  const { data: user, error } = await supabase
+    .from('users')
+    .select('*, role(*)')
+    .eq('id', id)
+    .returns<UserWithRole>()
+    .single();
+
+  if (error) {
+    console.log(error);
+    throw new Error('Error while getting user data');
+  }
+
+  return { data: user };
+}
+
+export async function updateUser({ id, updatedUser }: UpdateUserParams) {
+  const { error } = await supabase
+    .from('users')
+    .update(updatedUser)
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) {
+    console.log(error);
+    throw new Error('error while updating user data');
+  }
+
+  revalidatePath('/users', 'layout');
+  redirect('/users');
 }
