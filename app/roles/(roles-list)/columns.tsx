@@ -48,14 +48,16 @@ export const columns: ColumnDef<RoleType>[] = [
 
       return (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <div className='flex-grow-0'>
-              <Button variant='ghost' className='h-8 w-8 p-0 justify-end '>
-                <span className='sr-only'>Open menu</span>
-                <ThreeDotsVertical className='h-6 w-6' />
-              </Button>
-            </div>
-          </DropdownMenuTrigger>
+          <div className='flex w-full justify-end'>
+            <DropdownMenuTrigger asChild>
+              <div className='w-fit '>
+                <Button variant='ghost' className='h-8 w-8 p-0'>
+                  <span className='sr-only'>Open menu</span>
+                  <ThreeDotsVertical className='h-6 w-6' />
+                </Button>
+              </div>
+            </DropdownMenuTrigger>
+          </div>
           <DropdownMenuContent align='end' className='py-2'>
             <DropdownMenuItem asChild>
               <Button
