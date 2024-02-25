@@ -9,7 +9,7 @@ async function Page() {
 
   return (
     <>
-      <Heading1 additionalStyles='mb-4'>Roles List</Heading1>
+      <Heading1 className='mb-4'>Roles List</Heading1>
 
       <div className='rounded-md border bg-slate-100 dark:bg-slate-800 shadow-md px-4 py-6'>
         <DataTable columns={columns} data={data} />

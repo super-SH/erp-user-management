@@ -8,7 +8,7 @@ async function Page({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <Heading1 additionalStyles='mb-4'>Edit Role</Heading1>
+      <Heading1 className='mb-4'>Edit Role</Heading1>
 
       <div className='px-6 py-3 bg-slate-100 rounded-md shadow-md'>
         <RoleForm roleData={data} isEditingSession />

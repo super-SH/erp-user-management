@@ -8,3 +8,14 @@ export const roleSchema = z.object({
 
   rolePermissions: z.array(z.number()),
 });
+
+export const userSchema = z.object({
+  firstname: z.string().min(3).max(20),
+  lastname: z
+    .union([z.string().length(0), z.string().min(3).max(20)])
+    .optional(),
+  email: z.string().email(),
+  isActive: z.boolean(),
+  username: z.string().min(3).max(30),
+  role: z.number(), // Role id
+});

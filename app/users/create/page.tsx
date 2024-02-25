@@ -5,11 +5,9 @@ import { Heading1 } from '@/app/ui/typography';
 function Page() {
   return (
     <>
-      <Heading1 additionalStyles='mb-4'>Create User</Heading1>
+      <Heading1 className='mb-4'>Create User</Heading1>
 
-      <div className='px-6 py-3 bg-white rounded-md shadow-md'>
-        <UserForm />
-      </div>
+      <UserForm />
     </>
   );
 }
