@@ -12,12 +12,11 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { Paragraph } from '../typography';
 import { userSchema } from '@/lib/validation';
 import { Checkbox } from '@/components/ui/checkbox';
+import FormFieldInput from './form-field-input';
 
 function UserForm() {
   // 1. Define your form.
@@ -40,64 +39,42 @@ function UserForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
-        <div className='px-6 py-3 bg-white rounded-md shadow-md space-y-1'>
+        {/* User Info form card */}
+        <div className='px-6 py-3 bg-slate-100 rounded-md shadow-md space-y-1'>
           <Paragraph size='body' weight='semi' className='my-3'>
             User information
           </Paragraph>
 
           {/* Name */}
           <div className='flex flex-col md:flex-row md:gap-3 lg:gap-6 w-full justify-between'>
-            <FormField
-              control={form.control}
-              name='firstname'
-              render={({ field }) => (
-                <FormItem className='w-full'>
-                  <FormLabel className='font-semibold'>
-                    First Name <span className='text-red-500'>&#42;</span>
-                  </FormLabel>
-                  <FormControl>
-                    <Input placeholder='Peter' {...field} />
-                  </FormControl>
-                  <div className='h-5'>
-                    <FormMessage />
-                  </div>
-                </FormItem>
-              )}
+            <FormFieldInput
+              form={form}
+              fieldName='firstname'
+              label={
+                <>
+                  First Name <span className='text-red-500'>&#42;</span>
+                </>
+              }
+              inputPlaceholder='Peter'
             />
-            <FormField
-              control={form.control}
-              name='lastname'
-              render={({ field }) => (
-                <FormItem className='w-full'>
-                  <FormLabel className='font-semibold'>Last Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder='Parker' {...field} />
-                  </FormControl>
-                  <div className='h-5'>
-                    <FormMessage />
-                  </div>
-                </FormItem>
-              )}
+            <FormFieldInput
+              form={form}
+              fieldName='lastname'
+              label={'Last Name'}
+              inputPlaceholder='Parker'
             />
           </div>
 
           {/* Email */}
-          <FormField
-            control={form.control}
-            name='email'
-            render={({ field }) => (
-              <FormItem className='w-full'>
-                <FormLabel className='font-semibold'>
-                  Email <span className='text-red-500'>&#42;</span>
-                </FormLabel>
-                <FormControl>
-                  <Input placeholder='peterparker@gmail.com' {...field} />
-                </FormControl>
-                <div className='h-5'>
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
+          <FormFieldInput
+            form={form}
+            fieldName='email'
+            label={
+              <>
+                Email <span className='text-red-500'>&#42;</span>
+              </>
+            }
+            inputPlaceholder='peterparker@gmail.com'
           />
 
           {/* Is active checkbox */}
@@ -121,6 +98,24 @@ function UserForm() {
                 </FormLabel>
               </FormItem>
             )}
+          />
+        </div>
+
+        {/* Role and Permission card */}
+        <div className='px-6 py-3 bg-slate-100 rounded-md shadow-md space-y-1'>
+          <Paragraph size='body' weight='semi' className='my-3'>
+            Role & Permissions
+          </Paragraph>
+
+          <FormFieldInput
+            form={form}
+            fieldName='username'
+            label={
+              <>
+                User Name <span className='text-red-500'>&#42;</span>
+              </>
+            }
+            inputPlaceholder='peter_parker1234'
           />
         </div>
         <Button type='submit'>Submit</Button>
