@@ -14,6 +14,7 @@ import {
 
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -31,6 +32,7 @@ import {
 } from '@/app/ui/icons';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
+import { deleteUserById } from '@/lib/actions/user.action';
 
 // This type is used to define the shape of our data.
 
@@ -152,6 +154,14 @@ export const columns: ColumnDef<UserWithRole>[] = [
     cell: ({ row }) => {
       const user = row.original;
 
+      async function handleDelete(id: number) {
+        try {
+          await deleteUserById({ id });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
       return (
         <Dialog>
           <DropdownMenu>
@@ -204,7 +214,11 @@ export const columns: ColumnDef<UserWithRole>[] = [
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
-              <Button type='submit'>Confirm</Button>
+              <DialogClose asChild>
+                <Button type='submit' onClick={() => handleDelete(user.id)}>
+                  Confirm
+                </Button>
+              </DialogClose>
             </DialogFooter>
           </DialogContent>
         </Dialog>

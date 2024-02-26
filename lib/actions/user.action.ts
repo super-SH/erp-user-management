@@ -4,6 +4,7 @@ import { UserWithRole } from '@/types/collection';
 import { supabase } from '../supabase';
 import {
   CreateUserParams,
+  DeleteUserParams,
   GetUserById,
   UpdateUserParams,
 } from './shared.types';
@@ -74,4 +75,15 @@ export async function updateUser({ id, updatedUser }: UpdateUserParams) {
 
   revalidatePath('/users', 'layout');
   redirect('/users');
+}
+
+export async function deleteUserById({ id }: DeleteUserParams) {
+  const { error } = await supabase.from('users').delete().eq('id', id);
+
+  if (error) {
+    console.log(error);
+    throw new Error('error while deleting user data');
+  }
+
+  revalidatePath('/users');
 }

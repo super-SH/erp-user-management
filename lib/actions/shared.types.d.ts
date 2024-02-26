@@ -44,3 +44,7 @@ export interface UpdateUserParams {
     isActive: boolean;
   };
 }
+
+export interface DeleteUserParams {
+  id: number;
+}
