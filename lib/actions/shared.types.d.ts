@@ -17,6 +17,10 @@ export interface UpdateRoleParams {
   rolePremissions?: number[];
 }
 
+export interface DeleteRoleParams {
+  id: number;
+}
+
 /* --- USER ---  */
 export interface CreateUserParams {
   newUser: {

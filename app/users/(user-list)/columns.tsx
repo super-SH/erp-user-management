@@ -76,7 +76,7 @@ export const columns: ColumnDef<UserWithRole>[] = [
       const user = row.original;
       return (
         <p className='text-slate-700 font-medium dark:text-slate-300'>
-          {user.role.name}
+          {user?.role?.name ?? 'NULL'}
         </p>
       );
     },
@@ -215,7 +215,11 @@ export const columns: ColumnDef<UserWithRole>[] = [
             </DialogHeader>
             <DialogFooter>
               <DialogClose asChild>
-                <Button type='submit' onClick={() => handleDelete(user.id)}>
+                <Button
+                  variant='destructive'
+                  type='submit'
+                  onClick={() => handleDelete(user.id)}
+                >
                   Confirm
                 </Button>
               </DialogClose>

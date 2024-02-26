@@ -50,7 +50,7 @@ function UserForm({
       lastName: userData?.lastName || '',
       username: userData?.username || '',
       email: userData?.email || '',
-      role: String(userData?.role.id) || '',
+      role: String(userData?.role?.id) || '',
       isActive: userData?.isActive ?? false,
     },
   });

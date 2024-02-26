@@ -14,6 +14,7 @@ import {
 
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -30,6 +31,7 @@ import {
   ThreeDotsVertical,
 } from '@/app/ui/icons';
 import Link from 'next/link';
+import { deleteRoleById } from '@/lib/actions/role.action';
 
 // This type is used to define the shape of our data.
 
@@ -56,6 +58,14 @@ export const columns: ColumnDef<RoleType>[] = [
     id: 'actions',
     cell: ({ row }) => {
       const role = row.original;
+
+      async function handleDelete(id: number) {
+        try {
+          await deleteRoleById({ id });
+        } catch (error) {
+          console.log(error);
+        }
+      }
 
       return (
         <Dialog>
@@ -105,11 +115,19 @@ export const columns: ColumnDef<RoleType>[] = [
               <DialogTitle>Are you absolutely sure?</DialogTitle>
               <DialogDescription>
                 This action cannot be undone. Are you sure you want to
-                permanently delete this user from our servers?
+                permanently delete this role from our servers?
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
-              <Button type='submit'>Confirm</Button>
+              <DialogClose asChild>
+                <Button
+                  variant='destructive'
+                  type='submit'
+                  onClick={() => handleDelete(role.id)}
+                >
+                  Confirm
+                </Button>
+              </DialogClose>
             </DialogFooter>
           </DialogContent>
         </Dialog>

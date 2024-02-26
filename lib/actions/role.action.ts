@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { supabase } from '../supabase';
 import {
   CreateRoleParams,
+  DeleteRoleParams,
   GetRoleDataById,
   UpdateRoleParams,
 } from './shared.types';
@@ -141,4 +142,20 @@ export async function updateRole({
   // 4. revalidate and ,redirect to roles page
   revalidatePath('/roles', 'layout');
   redirect('/roles');
+}
+
+export async function deleteRoleById({ id }: DeleteRoleParams) {
+  // 1. delete all the role permission of the role
+  await deletePermissionsByRoleId(id);
+
+  // 2. delete the role data
+  const { error } = await supabase.from('roles').delete().eq('id', id);
+
+  if (error) {
+    console.log(error);
+    throw new Error('error while deleting roles data');
+  }
+
+  revalidatePath('/roles');
+  revalidatePath('/users');
 }
