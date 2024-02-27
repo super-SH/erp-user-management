@@ -180,6 +180,7 @@ function RoleForm({ roleData, isEditingSession = false }: RoleFormProps) {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof roleSchema>) {
     if (isEditingSession) {
+      if (!roleData) return;
       try {
         setIsSubmitting(true);
         // Typescript complain about 'roleData is possibly null, but where are sure it wouldn't be.

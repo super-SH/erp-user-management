@@ -109,7 +109,7 @@ export const columns: ColumnDef<UserWithRole>[] = [
   },
   {
     id: 'fullName',
-    header: ({ column }) => (
+    header: () => (
       <p className='text-md p-0 items-center font-medium text-slate-500  dark:text-slate-400'>
         FULLNAME
       </p>
