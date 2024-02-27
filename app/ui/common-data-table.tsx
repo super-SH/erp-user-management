@@ -8,11 +8,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { ColumnDef, flexRender } from '@tanstack/react-table';
+import {
+  ColumnDef,
+  flexRender,
+  Table as TableType,
+} from '@tanstack/react-table';
 
 interface CommonDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  table: import('@tanstack/table-core').Table<TData>;
+  table: TableType<TData>;
 }
 
 function CommonDataTable<TData, TValue>({

@@ -12,12 +12,12 @@ import {
 } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 
-import { LeftArrowIcon, PlusIcon, RightArrowIcon } from '@/app/ui/icons';
+import { LeftArrowIcon, RightArrowIcon } from '@/app/ui/icons';
 import { useState } from 'react';
-import Link from 'next/link';
+
 import CommonDataTable from '@/app/ui/common-data-table';
+import { DataTableToolbar } from './data-table-toolbar';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -49,26 +49,8 @@ export function DataTable<TData, TValue>({
   return (
     <div className='rounded-md bg-slate-100 dark:bg-slate-800'>
       {/* Operations like filter , create new role */}
-      <div className='flex flex-col md:flex-row justify-between gap-3 md:items-center py-4'>
-        <Input
-          placeholder='Search username...'
-          value={
-            (table.getColumn('username')?.getFilterValue() as string) ?? ''
-          }
-          onChange={(event) =>
-            table.getColumn('username')?.setFilterValue(event.target.value)
-          }
-          className='max-w-sm'
-        />
-        <Button asChild>
-          <Link
-            href={'/users/create'}
-            className='flex justify-between items-center gap-2 w-fit'
-          >
-            <PlusIcon className='h-4 w-4 invert' /> Create User
-          </Link>
-        </Button>
-      </div>
+
+      <DataTableToolbar table={table} />
 
       {/* Table , which display data */}
       <div>
