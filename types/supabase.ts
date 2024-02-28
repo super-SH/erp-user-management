@@ -11,21 +11,21 @@ export type Database = {
     Tables: {
       actions: {
         Row: {
-          actionType: string | null
+          actionType: string
           created_at: string
-          feature: number | null
+          feature: number
           id: number
         }
         Insert: {
-          actionType?: string | null
+          actionType: string
           created_at?: string
-          feature?: number | null
+          feature: number
           id?: number
         }
         Update: {
-          actionType?: string | null
+          actionType?: string
           created_at?: string
-          feature?: number | null
+          feature?: number
           id?: number
         }
         Relationships: [
@@ -42,17 +42,17 @@ export type Database = {
         Row: {
           created_at: string
           id: number
-          Name: string | null
+          Name: string
         }
         Insert: {
           created_at?: string
           id?: number
-          Name?: string | null
+          Name: string
         }
         Update: {
           created_at?: string
           id?: number
-          Name?: string | null
+          Name?: string
         }
         Relationships: []
       }
