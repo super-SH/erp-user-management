@@ -4,6 +4,8 @@ import { DataTable } from './data-table';
 import { columns } from './columns';
 import { getUsers } from '@/lib/actions/user.action';
 
+export const dynamic = 'force-dynamic';
+
 async function Page() {
   const { data } = await getUsers();
 

@@ -4,6 +4,8 @@ import React from 'react';
 import { DataTable } from './data-table';
 import { columns } from './columns';
 
+export const dynamic = 'force-dynamic';
+
 async function Page() {
   const { data } = await getRoles();
 
